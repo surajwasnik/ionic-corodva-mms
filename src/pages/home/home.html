@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item> 
+      <div class="search-contact-box">
+        <ion-searchbar [(ngModel)]="searchContactField" [showCancelButton]="shouldShowCancel" (ionInput)="searchContactsFn($event, searchContactField)" (ionCancel)="onCancel($event)" placeholder="Enter Mobile number">
+        </ion-searchbar>
+        <ion-list *ngIf="searchContacts.length > 0 " class="search-contact-list">
+          <button ion-item *ngFor="let contact of searchContacts" (click)="pickMyContact($event, contact.phoneNumbers[0].value)">
+            <div>
+              <p> {{ contact.displayName || contact.phoneNumbers[0].value }} </p>
+            </div>
+          </button>
+        </ion-list>
+      </div>
+    </ion-item>
+    <ion-item style="display:none">      
+      <ion-input type="hidden"  placeholder="Enter Mobile number" [(ngModel)]="mobile"></ion-input>     
+    </ion-item>
+    <ion-item>           
+      <ion-textarea placeholder="Enter a message" [(ngModel)]="message"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <button  ion-button (click)="getAttachmentPics()">get pics</button>      
+    </ion-item>
+    <ion-item  *ngIf = 'attachment'>
+      <img src={{attachment}}  alt="Attachment" width="100" height="100"/>    
+    </ion-item>
+
+    <ion-item  *ngIf = 'dataUrlString'>
+      <ion-textarea placeholder="" [(ngModel)]="dataUrlString"></ion-textarea>
+    </ion-item>
+    
+    <ion-item>
+      <button ion-button type="submit" block (click)="sendSMS()">Send</button>
+    </ion-item>
+  </ion-list>
+</ion-content>
